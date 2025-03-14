@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea tu Calendario Académico | Sistema de Estudiantes</title>
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome (Para íconos) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="bg-primary text-white text-center py-5">
+        <h1 class="display-4">Crea tu Calendario Académico</h1>
+        <p>Marca las fechas importantes de tu calendario académico y agrégales títulos.</p>
+    </header>
+
+    <!-- Crear Calendario Académico -->
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Calendario Académico</h2>
+        
+        <!-- Calendario interactivo -->
+        <div id="calendar"></div>
+
+        <!-- Modal para agregar un evento -->
+        <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventModalLabel">Agregar Evento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="eventTitle" class="form-label">Título del Evento</label>
+                            <input type="text" class="form-control" id="eventTitle" placeholder="Ejemplo: Examen Derecho Penal">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="saveEvent">Guardar Evento</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2025 Sistema de Estudiantes | Todos los derechos reservados</p>
+    </footer>
+
+    <!-- jQuery (necesario para FullCalendar) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Moment.js (dependencia necesaria para FullCalendar) -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+    <!-- Popper.js (para el funcionamiento de los modales de Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Inicia el calendario
+            $('#calendar').fullCalendar({
+                locale: 'es', // Idioma español
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                selectable: true,
+                selectHelper: true,
+                select: function (start, end) {
+                    $('#eventModal').modal('show');
+                    $('#saveEvent').off('click').on('click', function () {
+                        var eventTitle = $('#eventTitle').val();
+                        if (eventTitle) {
+                            var eventData = {
+                                title: eventTitle,
+                                start: start,
+                                end: end
+                            };
+                            $('#calendar').fullCalendar('renderEvent', eventData, true);
+                        }
+                        $('#eventModal').modal('hide');
+                    });
+                },
+                events: [
+                    {
+                        title: 'Inscripción de Materias',
+                        start: '2025-06-01'
+                    },
+                    {
+                        title: 'Examen Final Derecho Penal',
+                        start: '2025-07-15'
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+
+</html>
